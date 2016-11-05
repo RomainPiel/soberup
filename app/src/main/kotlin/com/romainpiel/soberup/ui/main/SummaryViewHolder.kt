@@ -12,12 +12,15 @@ class SummaryViewHolder(parent: ViewGroup?) : ViewHolder(R.layout.item_summary, 
 
     override fun bind(viewModel: ViewModel) {
         val summaryViewModel = viewModel as SummaryViewModel
+        val daysCount = summaryViewModel.daysCount
         description.text =
-                if (summaryViewModel.daysCount == 0) {
-                    itemView.resources.getText(R.string.summary_description_zero)
-                } else {
-                    itemView.resources.getQuantityString(R.plurals.summary_description_,
-                            summaryViewModel.daysCount, summaryViewModel.daysCount)
+                when (daysCount) {
+                    null ->
+                        ""
+                    0 ->
+                        itemView.resources.getText(R.string.summary_description_zero)
+                    else ->
+                        itemView.resources.getQuantityString(R.plurals.summary_description_, daysCount, daysCount)
                 }
     }
 }

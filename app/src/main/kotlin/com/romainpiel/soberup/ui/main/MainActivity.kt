@@ -9,16 +9,18 @@ import com.romainpiel.soberup.R
 import com.romainpiel.soberup.dagger.ActivityModule
 import com.romainpiel.soberup.ui.applicationComponent
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), MainView {
+
     val recyclerView: RecyclerView by bindView(R.id.recyclerView)
 
-    lateinit var presenter: MainActivityPresenter
+    lateinit var presenter: MainPresenter
+    lateinit var adapter: CardAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        presenter = MainActivityPresenter()
+        presenter = MainPresenter(this)
 
         DaggerMainActivityComponent.builder()
                 .applicationComponent(applicationComponent)
@@ -27,8 +29,8 @@ class MainActivity : AppCompatActivity() {
                 .inject(presenter)
 
         recyclerView.layoutManager = LinearLayoutManager(this)
-        val cards = listOf(TitleViewModel(), SummaryViewModel(10), AddViewModel())
-        recyclerView.adapter = CardAdapter(cards)
+        adapter = CardAdapter()
+        recyclerView.adapter = adapter
     }
 
     override fun onResume() {
@@ -40,4 +42,6 @@ class MainActivity : AppCompatActivity() {
         super.onPause()
         presenter.onPause()
     }
+
+    override fun setDaysSinceLastDrink(daysCount: Int) = adapter.setDaysCount(daysCount)
 }

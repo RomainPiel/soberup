@@ -6,11 +6,20 @@ import com.romainpiel.soberup.ui.ViewHolder
 import com.romainpiel.soberup.ui.ViewModel
 import com.romainpiel.soberup.utils.Screen
 
-class CardAdapter(val items: List<ViewModel>) : RecyclerView.Adapter<ViewHolder>() {
+class CardAdapter() : RecyclerView.Adapter<ViewHolder>() {
     object Type {
         val title = 0
         val summary = 1
         val add = 2
+    }
+
+    val items: List<ViewModel> = listOf(TitleViewModel(), SummaryViewModel(), AddViewModel())
+
+    fun setDaysCount(daysCount: Int) {
+        val itemPosition = 1
+        val summaryViewModel =  items.get(itemPosition) as SummaryViewModel
+        summaryViewModel.daysCount = daysCount
+        notifyItemChanged(itemPosition)
     }
 
     override fun onBindViewHolder(holder: ViewHolder?, position: Int) {
