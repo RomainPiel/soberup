@@ -10,9 +10,9 @@
     <string name="add_add">Add</string>
     <string name="today">Today</string>
     <string name="yesterday">Yesterday</string>
-    <string name="days_ago_" formatted="false">%1s days ago</string>
     <plurals name="units_">
         <item quantity="one">%d unit</item>
         <item quantity="other">%d units</item>
     </plurals>
+    <string name="date_in_future">Time travel is still not a thing :( Please pick a valid date.</string>
 </resources>

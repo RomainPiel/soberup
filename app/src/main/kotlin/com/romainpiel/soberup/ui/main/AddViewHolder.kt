@@ -8,8 +8,12 @@ import com.romainpiel.soberup.R
 import com.romainpiel.soberup.ui.ViewHolder
 import com.romainpiel.soberup.ui.ViewModel
 import org.threeten.bp.LocalDate
+import org.threeten.bp.format.DateTimeFormatter
+import org.threeten.bp.temporal.ChronoUnit
 
 class AddViewHolder(parent: ViewGroup?) : ViewHolder(R.layout.item_add, parent) {
+    private val DATE_FORMATTER = DateTimeFormatter.ofPattern("dd/MM/uuuu")
+
     val day: Button by bindView(R.id.day)
     val units: Button by bindView(R.id.units)
     val fab: FloatingActionButton by bindView(R.id.fab)
@@ -19,13 +23,16 @@ class AddViewHolder(parent: ViewGroup?) : ViewHolder(R.layout.item_add, parent) 
 
     override fun bind(viewModel: ViewModel) {
         val addViewModel = viewModel as AddViewModel
-        val daysAgo = LocalDate.now().compareTo(addViewModel.day)
+        val daysAgo = ChronoUnit.DAYS.between(addViewModel.day, LocalDate.now()).toInt()
         day.text = when(daysAgo) {
             0 -> itemView.resources.getString(R.string.today)
             1 -> itemView.resources.getString(R.string.yesterday)
-            else -> itemView.resources.getString(daysAgo, R.string.days_ago_)
+            else -> addViewModel.day.format(DATE_FORMATTER)
         }
         units.text = itemView.resources.getQuantityString(R.plurals.units_, addViewModel.units, addViewModel.units)
+
+        day.setOnClickListener { onClickListener?.onDateClicked() }
+        units.setOnClickListener { onClickListener?.onUnitsClicked() }
         fab.setOnClickListener { onClickListener?.onAddClicked(addViewModel.day, addViewModel.units) }
     }
 }

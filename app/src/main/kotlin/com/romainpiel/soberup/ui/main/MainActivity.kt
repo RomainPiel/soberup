@@ -1,9 +1,11 @@
 package com.romainpiel.soberup.ui.main
 
+import android.app.DatePickerDialog
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.widget.Toast
 import butterknife.bindView
 import com.romainpiel.soberup.R
 import com.romainpiel.soberup.dagger.ActivityModule
@@ -47,4 +49,19 @@ class MainActivity : AppCompatActivity(), MainView, CardAdapter.OnClickListener 
     override fun setDaysSinceLastDrink(daysCount: Int?) = adapter.setDaysCount(daysCount)
 
     override fun onAddClicked(date: LocalDate, units: Int) = presenter.onAddClicked(date, units)
+
+    override fun onDateClicked() {
+        val dialog = DatePickerDialog(this)
+        dialog.setOnDateSetListener { datePicker, year, month, dayOfMonth ->
+            val date = LocalDate.of(year, month + 1, dayOfMonth)
+            if (LocalDate.now() < date) {
+                Toast.makeText(this, getString(R.string.date_in_future), Toast.LENGTH_SHORT).show()
+            } else {
+                adapter.setNewDrinkDate(date)
+            }
+        }
+        dialog.show()
+    }
+    override fun onUnitsClicked() {
+    }
 }

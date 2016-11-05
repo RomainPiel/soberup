@@ -18,8 +18,15 @@ class CardAdapter(val onClickListener: OnClickListener) : RecyclerView.Adapter<V
 
     fun setDaysCount(daysCount: Int?) {
         val itemPosition = 1
-        val summaryViewModel =  items.get(itemPosition) as SummaryViewModel
+        val summaryViewModel = items.get(itemPosition) as SummaryViewModel
         summaryViewModel.daysCount = daysCount
+        notifyItemChanged(itemPosition)
+    }
+
+    fun setNewDrinkDate(date: LocalDate) {
+        val itemPosition = 2
+        val addViewModel = items.get(itemPosition) as AddViewModel
+        addViewModel.day = date
         notifyItemChanged(itemPosition)
     }
 
@@ -49,6 +56,8 @@ class CardAdapter(val onClickListener: OnClickListener) : RecyclerView.Adapter<V
     }
 
     interface OnClickListener {
+        fun onDateClicked()
+        fun onUnitsClicked()
         fun onAddClicked(date: LocalDate, units: Int)
     }
 }
