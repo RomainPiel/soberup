@@ -62,6 +62,12 @@ class MainActivity : AppCompatActivity(), MainView, CardAdapter.OnClickListener 
         }
         dialog.show()
     }
-    override fun onUnitsClicked() {
+
+    override fun onUnitMinusClicked() {
+        adapter.decrementNewDrinkUnits()
+    }
+
+    override fun onUnitPlusClicked() {
+        adapter.incrementNewDrinkUnits()
     }
 }

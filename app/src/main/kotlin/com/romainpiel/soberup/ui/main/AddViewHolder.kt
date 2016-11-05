@@ -3,6 +3,7 @@ package com.romainpiel.soberup.ui.main
 import android.support.design.widget.FloatingActionButton
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.TextView
 import butterknife.bindView
 import com.romainpiel.soberup.R
 import com.romainpiel.soberup.ui.ViewHolder
@@ -15,7 +16,9 @@ class AddViewHolder(parent: ViewGroup?) : ViewHolder(R.layout.item_add, parent) 
     private val DATE_FORMATTER = DateTimeFormatter.ofPattern("dd/MM/uuuu")
 
     val day: Button by bindView(R.id.day)
-    val units: Button by bindView(R.id.units)
+    val unitMinus: Button by bindView(R.id.unit_minus)
+    val units: TextView by bindView(R.id.units)
+    val unitPlus: Button by bindView(R.id.unit_plus)
     val fab: FloatingActionButton by bindView(R.id.fab)
 
     var onClickListener: CardAdapter.OnClickListener? = null
@@ -32,7 +35,8 @@ class AddViewHolder(parent: ViewGroup?) : ViewHolder(R.layout.item_add, parent) 
         units.text = itemView.resources.getQuantityString(R.plurals.units_, addViewModel.units, addViewModel.units)
 
         day.setOnClickListener { onClickListener?.onDateClicked() }
-        units.setOnClickListener { onClickListener?.onUnitsClicked() }
+        unitMinus.setOnClickListener { onClickListener?.onUnitMinusClicked() }
+        unitPlus.setOnClickListener { onClickListener?.onUnitPlusClicked() }
         fab.setOnClickListener { onClickListener?.onAddClicked(addViewModel.day, addViewModel.units) }
     }
 }

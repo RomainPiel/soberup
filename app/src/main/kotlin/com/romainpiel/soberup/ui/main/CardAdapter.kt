@@ -30,6 +30,21 @@ class CardAdapter(val onClickListener: OnClickListener) : RecyclerView.Adapter<V
         notifyItemChanged(itemPosition)
     }
 
+    fun decrementNewDrinkUnits() {
+        val itemPosition = 2
+        val addViewModel = items.get(itemPosition) as AddViewModel
+        if (addViewModel.units == 0) return
+        addViewModel.units--
+        notifyItemChanged(itemPosition)
+    }
+
+    fun incrementNewDrinkUnits() {
+        val itemPosition = 2
+        val addViewModel = items.get(itemPosition) as AddViewModel
+        addViewModel.units++
+        notifyItemChanged(itemPosition)
+    }
+
     override fun onBindViewHolder(holder: ViewHolder?, position: Int) {
         holder?.bind(items[position])
         holder?.itemView?.elevation = Screen.dpToPx((itemCount - position) * 10)
@@ -39,7 +54,7 @@ class CardAdapter(val onClickListener: OnClickListener) : RecyclerView.Adapter<V
     }
 
     override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): ViewHolder {
-        return when(viewType) {
+        return when (viewType) {
             Type.title -> TitleViewHolder(parent)
             Type.summary -> SummaryViewHolder(parent)
             Type.add -> AddViewHolder(parent)
@@ -57,7 +72,8 @@ class CardAdapter(val onClickListener: OnClickListener) : RecyclerView.Adapter<V
 
     interface OnClickListener {
         fun onDateClicked()
-        fun onUnitsClicked()
+        fun onUnitMinusClicked()
+        fun onUnitPlusClicked()
         fun onAddClicked(date: LocalDate, units: Int)
     }
 }
