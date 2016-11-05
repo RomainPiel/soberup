@@ -8,11 +8,27 @@ import com.romainpiel.soberup.ui.ViewHolder
 import com.romainpiel.soberup.ui.ViewModel
 
 class SummaryViewHolder(parent: ViewGroup?) : ViewHolder(R.layout.item_summary, parent) {
+    object ChangeType {
+        val daysCount = 0
+    }
+
     val description: TextView by bindView(R.id.description)
 
     override fun bind(viewModel: ViewModel, payloads: MutableList<Any>?) {
         val summaryViewModel = viewModel as SummaryViewModel
-        val daysCount = summaryViewModel.daysCount
+        if (payloads != null && payloads.size > 0) {
+            payloads.forEach {
+                when (it as Int) {
+                    SummaryViewHolder.ChangeType.daysCount -> setDaysCount(summaryViewModel.daysCount)
+                }
+            }
+            return
+        }
+
+        setDaysCount(summaryViewModel.daysCount)
+    }
+
+    private fun setDaysCount(daysCount: Int?) {
         description.text =
                 when (daysCount) {
                     null ->

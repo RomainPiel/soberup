@@ -20,7 +20,7 @@ class CardAdapter(val onClickListener: OnClickListener) : RecyclerView.Adapter<V
         val itemPosition = 1
         val summaryViewModel = items.get(itemPosition) as SummaryViewModel
         summaryViewModel.daysCount = daysCount
-        notifyItemChanged(itemPosition)
+        notifyItemChanged(itemPosition, SummaryViewHolder.ChangeType.daysCount)
     }
 
     fun setNewDrinkDate(date: LocalDate) {
