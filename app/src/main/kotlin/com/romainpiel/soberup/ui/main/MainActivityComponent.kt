@@ -11,5 +11,5 @@ import dagger.Component
         dependencies = arrayOf(ApplicationComponent::class),
         modules = arrayOf(ActivityModule::class))
 interface MainActivityComponent : ActivityComponent {
-    fun inject(activity: MainActivity)
+    fun inject(activity: MainActivityPresenter)
 }
