@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Sober up</string>
+    <string name="summary_description_zero">I had a drink today.</string>
+    <plurals name="summary_description_">
+        <item quantity="one">I haven\'t had a drink since yesterday.</item>
+        <item quantity="other">I haven\'t had a drink in %d days.</item>
+    </plurals>
+</resources>
