@@ -33,7 +33,7 @@ class CardAdapter(val onClickListener: OnClickListener) : RecyclerView.Adapter<V
     fun decrementNewDrinkUnits() {
         val itemPosition = 2
         val addViewModel = items.get(itemPosition) as AddViewModel
-        if (addViewModel.units == 0) return
+        if (addViewModel.units == 1) return
         addViewModel.units--
         notifyItemChanged(itemPosition)
     }
