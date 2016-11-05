@@ -13,6 +13,11 @@ import org.threeten.bp.format.DateTimeFormatter
 import org.threeten.bp.temporal.ChronoUnit
 
 class AddViewHolder(parent: ViewGroup?) : ViewHolder(R.layout.item_add, parent) {
+    object ChangeType {
+        val date = 0
+        val units = 1
+    }
+
     private val DATE_FORMATTER = DateTimeFormatter.ofPattern("dd/MM/uuuu")
 
     val day: Button by bindView(R.id.day)
@@ -24,19 +29,37 @@ class AddViewHolder(parent: ViewGroup?) : ViewHolder(R.layout.item_add, parent) 
     var onClickListener: CardAdapter.OnClickListener? = null
         set
 
-    override fun bind(viewModel: ViewModel) {
+    override fun bind(viewModel: ViewModel, payloads: MutableList<Any>?) {
         val addViewModel = viewModel as AddViewModel
-        val daysAgo = ChronoUnit.DAYS.between(addViewModel.day, LocalDate.now()).toInt()
-        day.text = when(daysAgo) {
-            0 -> itemView.resources.getString(R.string.today)
-            1 -> itemView.resources.getString(R.string.yesterday)
-            else -> addViewModel.day.format(DATE_FORMATTER)
+        if (payloads != null && payloads.size > 0) {
+            payloads.forEach {
+                when (it as Int) {
+                    ChangeType.date -> setDate(addViewModel.day)
+                    ChangeType.units -> setUnits(addViewModel.units)
+                }
+            }
+            return
         }
-        units.text = itemView.resources.getQuantityString(R.plurals.units_, addViewModel.units, addViewModel.units)
+
+        setDate(addViewModel.day)
+        setUnits(addViewModel.units)
 
         day.setOnClickListener { onClickListener?.onDateClicked() }
         unitMinus.setOnClickListener { onClickListener?.onUnitMinusClicked() }
         unitPlus.setOnClickListener { onClickListener?.onUnitPlusClicked() }
         fab.setOnClickListener { onClickListener?.onAddClicked(addViewModel.day, addViewModel.units) }
+    }
+
+    private fun setDate(d: LocalDate) {
+        val daysAgo = ChronoUnit.DAYS.between(d, LocalDate.now()).toInt()
+        day.text = when(daysAgo) {
+            0 -> itemView.resources.getString(R.string.today)
+            1 -> itemView.resources.getString(R.string.yesterday)
+            else -> d.format(DATE_FORMATTER)
+        }
+    }
+
+    private fun setUnits(u: Int) {
+        units.text = itemView.resources.getQuantityString(R.plurals.units_, u, u)
     }
 }

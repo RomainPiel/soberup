@@ -3,6 +3,7 @@ package com.romainpiel.soberup.ui.main
 import android.app.DatePickerDialog
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import android.support.v7.widget.DefaultItemAnimator
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.widget.Toast
@@ -34,6 +35,9 @@ class MainActivity : AppCompatActivity(), MainView, CardAdapter.OnClickListener 
         recyclerView.layoutManager = LinearLayoutManager(this)
         adapter = CardAdapter(this)
         recyclerView.adapter = adapter
+        recyclerView.itemAnimator = object : DefaultItemAnimator() {
+            override fun canReuseUpdatedViewHolder(viewHolder: RecyclerView.ViewHolder) = true
+        }
     }
 
     override fun onResume() {

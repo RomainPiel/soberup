@@ -10,7 +10,7 @@ import com.romainpiel.soberup.ui.ViewModel
 class SummaryViewHolder(parent: ViewGroup?) : ViewHolder(R.layout.item_summary, parent) {
     val description: TextView by bindView(R.id.description)
 
-    override fun bind(viewModel: ViewModel) {
+    override fun bind(viewModel: ViewModel, payloads: MutableList<Any>?) {
         val summaryViewModel = viewModel as SummaryViewModel
         val daysCount = summaryViewModel.daysCount
         description.text =

@@ -27,7 +27,7 @@ class CardAdapter(val onClickListener: OnClickListener) : RecyclerView.Adapter<V
         val itemPosition = 2
         val addViewModel = items.get(itemPosition) as AddViewModel
         addViewModel.day = date
-        notifyItemChanged(itemPosition)
+        notifyItemChanged(itemPosition, AddViewHolder.ChangeType.date)
     }
 
     fun decrementNewDrinkUnits() {
@@ -35,18 +35,22 @@ class CardAdapter(val onClickListener: OnClickListener) : RecyclerView.Adapter<V
         val addViewModel = items.get(itemPosition) as AddViewModel
         if (addViewModel.units == 1) return
         addViewModel.units--
-        notifyItemChanged(itemPosition)
+        notifyItemChanged(itemPosition, AddViewHolder.ChangeType.units)
     }
 
     fun incrementNewDrinkUnits() {
         val itemPosition = 2
         val addViewModel = items.get(itemPosition) as AddViewModel
         addViewModel.units++
-        notifyItemChanged(itemPosition)
+        notifyItemChanged(itemPosition, AddViewHolder.ChangeType.units)
     }
 
     override fun onBindViewHolder(holder: ViewHolder?, position: Int) {
-        holder?.bind(items[position])
+        onBindViewHolder(holder, position, null)
+    }
+
+    override fun onBindViewHolder(holder: ViewHolder?, position: Int, payloads: MutableList<Any>?) {
+        holder?.bind(items[position], payloads)
         holder?.itemView?.elevation = Screen.dpToPx((itemCount - position) * 10)
         if (getItemViewType(position) == Type.add) {
             (holder as AddViewHolder).onClickListener = onClickListener

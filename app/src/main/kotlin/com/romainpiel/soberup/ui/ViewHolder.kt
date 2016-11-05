@@ -8,5 +8,5 @@ abstract class ViewHolder : RecyclerView.ViewHolder {
     constructor(layoutResId: Int, parent: ViewGroup?) :
     super(LayoutInflater.from(parent?.context).inflate(layoutResId, parent, false))
 
-    abstract fun bind(viewModel: ViewModel)
+    abstract fun bind(viewModel: ViewModel, payloads: MutableList<Any>? = null)
 }
