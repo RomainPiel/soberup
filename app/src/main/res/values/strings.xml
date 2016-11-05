@@ -1,8 +1,18 @@
 <resources>
     <string name="app_name">Sober up</string>
+    <string name="summary_see_past_month">See past month</string>
     <string name="summary_description_zero">I had a drink today.</string>
     <plurals name="summary_description_">
         <item quantity="one">I haven\'t had a drink since yesterday.</item>
         <item quantity="other">I haven\'t had a drink in %d days.</item>
+    </plurals>
+    <string name="add_add_a_new_entry">Add a new drink</string>
+    <string name="add_add">Add</string>
+    <string name="today">Today</string>
+    <string name="yesterday">Yesterday</string>
+    <string name="days_ago_" formatted="false">%1s days ago</string>
+    <plurals name="units_">
+        <item quantity="one">%d unit</item>
+        <item quantity="other">%d units</item>
     </plurals>
 </resources>

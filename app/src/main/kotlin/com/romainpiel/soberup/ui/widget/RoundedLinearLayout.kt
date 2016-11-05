@@ -5,10 +5,10 @@ import android.graphics.Canvas
 import android.graphics.Path
 import android.graphics.RectF
 import android.util.AttributeSet
-import android.widget.FrameLayout
+import android.widget.LinearLayout
 import com.romainpiel.soberup.R
 
-class RoundedFrameLayout : FrameLayout {
+class RoundedLinearLayout : LinearLayout {
     internal val path: Path = Path()
     internal var cornerRadii: FloatArray = FloatArray(8)
 
@@ -26,9 +26,9 @@ class RoundedFrameLayout : FrameLayout {
 
     fun init(attrs: AttributeSet?) {
         if (attrs != null) {
-            val a = context.obtainStyledAttributes(attrs, R.styleable.RoundedFrameLayout, 0, 0)
-            val cornerRadius = a.getDimensionPixelSize(R.styleable.RoundedFrameLayout_cornerRadius, 0)
-            val cornerRadiusSide = a.getInteger(R.styleable.RoundedFrameLayout_cornerRadiusSide, 0)
+            val a = context.obtainStyledAttributes(attrs, R.styleable.RoundedLinearLayout, 0, 0)
+            val cornerRadius = a.getDimensionPixelSize(R.styleable.RoundedLinearLayout_cornerRadius, 0)
+            val cornerRadiusSide = a.getInteger(R.styleable.RoundedLinearLayout_cornerRadiusSide, 0)
             setCornerRadii(cornerRadius.toFloat(), cornerRadiusSide)
             a.recycle()
         }
