@@ -14,12 +14,12 @@ class MainPresenter(private val view: MainView) : ValueEventListener {
     @Inject
     lateinit var drinkRepository: DrinkRepository
 
-    fun onResume() {
-        drinkRepository.subscribeToLatest(this)
-    }
+    fun onResume() = drinkRepository.subscribeToLatest(this)
+    fun onPause() = drinkRepository.unsubscribe(this)
 
-    fun onPause() {
-        drinkRepository.unsubscribe(this)
+    fun onAddClicked(date: LocalDate, units: Int) {
+        val drink = Drink(date.toString(), units)
+        drinkRepository.add(drink)
     }
 
     override fun onCancelled(error: DatabaseError?) {
@@ -29,8 +29,12 @@ class MainPresenter(private val view: MainView) : ValueEventListener {
     override fun onDataChange(snapshot: DataSnapshot?) {
         L.d(snapshot?.toString()!!)
         val lastDrink = snapshot?.children?.firstOrNull()?.getValue(Drink::class.java)
-        val lastDrinkDate = LocalDate.parse(lastDrink?.date)
-        val daysSinceLastDrink = LocalDate.now().compareTo(lastDrinkDate)
-        view.setDaysSinceLastDrink(daysSinceLastDrink)
+        if (lastDrink != null) {
+            val lastDrinkDate = LocalDate.parse(lastDrink.date)
+            val daysSinceLastDrink = LocalDate.now().compareTo(lastDrinkDate)
+            view.setDaysSinceLastDrink(daysSinceLastDrink)
+        } else {
+            view.setDaysSinceLastDrink(null)
+        }
     }
 }

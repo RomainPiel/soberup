@@ -8,8 +8,9 @@ import butterknife.bindView
 import com.romainpiel.soberup.R
 import com.romainpiel.soberup.dagger.ActivityModule
 import com.romainpiel.soberup.ui.applicationComponent
+import org.threeten.bp.LocalDate
 
-class MainActivity : AppCompatActivity(), MainView {
+class MainActivity : AppCompatActivity(), MainView, CardAdapter.OnClickListener {
 
     val recyclerView: RecyclerView by bindView(R.id.recyclerView)
 
@@ -29,7 +30,7 @@ class MainActivity : AppCompatActivity(), MainView {
                 .inject(presenter)
 
         recyclerView.layoutManager = LinearLayoutManager(this)
-        adapter = CardAdapter()
+        adapter = CardAdapter(this)
         recyclerView.adapter = adapter
     }
 
@@ -43,5 +44,7 @@ class MainActivity : AppCompatActivity(), MainView {
         presenter.onPause()
     }
 
-    override fun setDaysSinceLastDrink(daysCount: Int) = adapter.setDaysCount(daysCount)
+    override fun setDaysSinceLastDrink(daysCount: Int?) = adapter.setDaysCount(daysCount)
+
+    override fun onAddClicked(date: LocalDate, units: Int) = presenter.onAddClicked(date, units)
 }

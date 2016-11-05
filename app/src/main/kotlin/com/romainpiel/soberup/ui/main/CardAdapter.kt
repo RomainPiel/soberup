@@ -5,8 +5,9 @@ import android.view.ViewGroup
 import com.romainpiel.soberup.ui.ViewHolder
 import com.romainpiel.soberup.ui.ViewModel
 import com.romainpiel.soberup.utils.Screen
+import org.threeten.bp.LocalDate
 
-class CardAdapter() : RecyclerView.Adapter<ViewHolder>() {
+class CardAdapter(val onClickListener: OnClickListener) : RecyclerView.Adapter<ViewHolder>() {
     object Type {
         val title = 0
         val summary = 1
@@ -15,7 +16,7 @@ class CardAdapter() : RecyclerView.Adapter<ViewHolder>() {
 
     val items: List<ViewModel> = listOf(TitleViewModel(), SummaryViewModel(), AddViewModel())
 
-    fun setDaysCount(daysCount: Int) {
+    fun setDaysCount(daysCount: Int?) {
         val itemPosition = 1
         val summaryViewModel =  items.get(itemPosition) as SummaryViewModel
         summaryViewModel.daysCount = daysCount
@@ -25,6 +26,9 @@ class CardAdapter() : RecyclerView.Adapter<ViewHolder>() {
     override fun onBindViewHolder(holder: ViewHolder?, position: Int) {
         holder?.bind(items[position])
         holder?.itemView?.elevation = Screen.dpToPx((itemCount - position) * 10)
+        if (getItemViewType(position) == Type.add) {
+            (holder as AddViewHolder).onClickListener = onClickListener
+        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): ViewHolder {
@@ -42,5 +46,9 @@ class CardAdapter() : RecyclerView.Adapter<ViewHolder>() {
 
     override fun getItemViewType(position: Int): Int {
         return items[position].type()
+    }
+
+    interface OnClickListener {
+        fun onAddClicked(date: LocalDate, units: Int)
     }
 }
